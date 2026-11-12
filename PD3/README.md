@@ -1,7 +1,7 @@
 # PD3 – Calculadora con patrón MVC
 
 Práctica de POO basada en el ejemplo de la calculadora MVC (sesión del 10/Nov).
-La aplicación es una calculadora en Java Swing que parte de un total en `1` y lo multiplica por el número que escribe el usuario.
+La aplicación es una calculadora en Java Swing que parte de un total en `1` y le aplica suma, resta, multiplicación o división con el número que escribe el usuario.
 
 - **Video explicativo (máx. 5 min):** _pega aquí el URL_
 - **Guion del video:** [docs/guion-video.md](docs/guion-video.md)
@@ -23,7 +23,8 @@ PD3/
 │  ├─ ClcMVC.java          # Punto de entrada (main)
 │  ├─ ClcModel.java        # Modelo: lógica y estado
 │  ├─ ClcView.java         # Vista: ventana Swing
-│  └─ ClcController.java   # Controlador: conecta vista y modelo
+│  ├─ ClcController.java   # Controlador: conecta vista y modelo
+│  └─ Operation.java       # Enum con las operaciones (+, -, x, /)
 ├─ docs/
 │  └─ guion-video.md
 └─ README.md
@@ -48,21 +49,24 @@ Guarda el total en un `BigDecimal` (enteros y decimales sin perder precisión) y
 | Método | Descripción |
 |---|---|
 | `reset()` | Regresa el total a `1`. |
-| `multiplyBy(String)` | Convierte el texto a `BigDecimal` y lo multiplica por el total. Lanza `NumberFormatException` si no es un número. |
+| `apply(Operation, String)` | Convierte el texto a `BigDecimal` y aplica la operación al total. Lanza `NumberFormatException` si no es un número y `ArithmeticException` si se divide entre cero; en ambos casos el total no cambia. |
 | `setValue(String)` | Asigna el total. |
 | `getValue()` | Regresa el total como texto con `toPlainString()` (evita notación científica). |
 
 ### Vista – `ClcView` (extiende `JFrame`)
-Muestra los componentes (campo de entrada, botón **Multiply**, campo de total no editable, botón **Clear**). No contiene lógica de cálculo; solo expone métodos para que el controlador la use: `getUserInput()`, `setTotal()`, `reset()`, `showError()`, `addMultiplyListener()` y `addClearListener()`.
+Muestra los componentes: campo de entrada, un botón por cada operación (generados recorriendo `Operation.values()`), campo de total no editable y botón **Clear**. No contiene lógica de cálculo; solo expone métodos para que el controlador la use: `getUserInput()`, `setTotal()`, `reset()`, `showError()`, `addOperationListener(Operation, ActionListener)` y `addClearListener()`.
 
 ### Controlador – `ClcController`
-Recibe el modelo y la vista, y registra dos *listeners* (clases internas):
+Recibe el modelo y la vista, y registra un `OperationListener` por cada operación y un `ClearListener` (clases internas):
 
-- `MultiplyListener`: lee la entrada → `model.multiplyBy()` → `view.setTotal()`. Si el texto no es válido, muestra un mensaje de error.
+- `OperationListener`: un solo listener parametrizado con la operación; lee la entrada → `model.apply(op, texto)` → `view.setTotal()`. Si el texto no es válido o se divide entre cero, muestra un mensaje de error.
 - `ClearListener`: `model.reset()` y `view.reset()`.
 
 ### Arranque – `ClcMVC`
 Crea una instancia de cada parte, las conecta y hace visible la ventana.
+
+### Operaciones – `Operation` (enum)
+Define `ADD`, `SUBTRACT`, `MULTIPLY` y `DIVIDE`. Cada constante tiene su símbolo (`getSymbol()`) y su propio `apply(BigDecimal, BigDecimal)`. La división usa `MathContext.DECIMAL64` y lanza `ArithmeticException` si el divisor es cero. Agregar una operación nueva solo requiere añadir una constante.
 
 ### Flujo de una operación
 
@@ -72,10 +76,10 @@ sequenceDiagram
     participant V as ClcView
     participant C as ClcController
     participant M as ClcModel
-    U->>V: Escribe número y pulsa "Multiply"
+    U->>V: Escribe número y pulsa una operación
     V->>C: actionPerformed()
     C->>V: getUserInput()
-    C->>M: multiplyBy(texto)
+    C->>M: apply(op, texto)
     C->>M: getValue()
     C->>V: setTotal(total)
     V-->>U: Muestra el nuevo total
@@ -83,7 +87,7 @@ sequenceDiagram
 
 ## Diagrama de clases
 
-### Estado actual
+### Punto de partida (ejemplo original, solo multiplicación)
 
 ```mermaid
 classDiagram
@@ -139,7 +143,7 @@ classDiagram
     ClcMVC ..> ClcController : crea
 ```
 
-### Propuesta para varias operaciones (Strategy con `enum`)
+### Diseño final (Strategy con `enum`, implementado)
 
 ```mermaid
 classDiagram
@@ -149,7 +153,7 @@ classDiagram
         SUBTRACT
         MULTIPLY
         DIVIDE
-        +symbol String
+        +getSymbol() String
         +apply(BigDecimal a, BigDecimal b) BigDecimal
     }
     class ClcModel {
