@@ -9,10 +9,10 @@
 ## 1:20 – 1:50 · Demostración (ejecutar la app)
 "Aquí la ejecuto. El total empieza en 1. Con 5 y el botón más, el total es 6; con 2 y menos, 4; con 3 y por, 12; con 4 y entre, 3. Si divido entre cero o escribo una letra, aparece un mensaje de error. Y Clear regresa el total a 1."
 
-## 1:50 – 2:50 · Estrategia para más operaciones (mostrar el diagrama de clases)
+## 1:50 – 2:50 · Estrategia para más operaciones (mostrar docs/diagrama-clases.md)
 "Para agregar suma, resta y división sin romper MVC, creé un enum llamado Operation. Cada valor, como ADD o SUBTRACT, trae su símbolo y la función que calcula. En el modelo, cambié multiplyBy por un método apply que recibe la operación y el número. En la vista, genero los botones recorriendo Operation.values(), así que agregar una operación no requiere más código de interfaz. Y en el controlador uso un solo OperationListener que recibe la operación. También manejo la división entre cero mostrando un error. La vista sigue sin conocer la lógica y el modelo sigue sin conocer Swing."
 
-## 2:50 – 3:50 · Patrón Command (mostrar la tabla del README)
+## 2:50 – 3:50 · Patrón Command (mostrar la tabla de docs/patrones.md)
 "El patrón Command convierte cada acción en un objeto, con clases como AddCommand o SubtractCommand. Sus ventajas son que cada operación vive aislada, se agregan sin tocar el controlador y permite deshacer y llevar un historial. Sus desventajas es que para operaciones de una sola línea termino con muchas clases casi vacías, más archivos y más complejidad sin necesidad."
 
 ## 3:50 – 4:30 · Conclusión y otros patrones
