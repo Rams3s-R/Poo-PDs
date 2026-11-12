@@ -13,9 +13,9 @@ Poo-PDs/
 ├─ .gitignore
 ├─ README.md        # Este índice
 └─ PD3/
-   ├─ README.md     # Documentación, diagrama de clases y análisis de patrones
+   ├─ README.md     # Descripción general, cómo ejecutar y enlaces
    ├─ src/          # Código fuente (.java)
-   └─ docs/         # Guion del video
+   └─ docs/         # Documentación, diagramas y patrones
 ```
 
 ## Autor

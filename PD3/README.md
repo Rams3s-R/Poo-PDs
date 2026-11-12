@@ -15,7 +15,6 @@ Práctica de POO basada en el ejemplo de la calculadora MVC visto en clase (sesi
 | [Documentación de lo implementado](docs/documentacion.md) | Qué hace cada clase y cómo fluye una operación. |
 | [Diagrama de clases](docs/diagrama-clases.md) | Diagramas del punto de partida y del diseño final. |
 | [Estrategia y patrones](docs/patrones.md) | Cómo se amplían las operaciones, análisis del patrón Command y alternativas. |
-| [Guion del video](docs/guion-video.md) | Guion con tiempos para la grabación. |
 
 ## Estructura del proyecto
 
@@ -30,8 +29,7 @@ PD3/
 ├─ docs/
 │  ├─ documentacion.md
 │  ├─ diagrama-clases.md
-│  ├─ patrones.md
-│  └─ guion-video.md
+│  └─ patrones.md
 └─ README.md
 ```
 
