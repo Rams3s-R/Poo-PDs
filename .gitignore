@@ -1,0 +1,10 @@
+# Archivos compilados
+bin/
+*.class
+
+# VS Code (opcional: quita esta línea si quieres subir settings.json)
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
