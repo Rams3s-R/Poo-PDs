@@ -25,4 +25,3 @@ Si usas otras credenciales, cámbialas en `filey/bd/ConexionBD.java`.
 - `BaseDatos/`: script SQL y diagrama Entidad-Relación
 - `DiagramaClases/`: diagrama de clases
 - `Codigo/`: código fuente
-- Video de máximo 5 min: pega aquí el enlace (con acceso abierto) → `link_video.md`
